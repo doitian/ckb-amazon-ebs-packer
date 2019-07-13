@@ -23,6 +23,6 @@ as the user data:
 
 ```
 #!/bin/bash
-MINER_THREADS=8
+MINER_THREADS="$(nproc)"
 sudo sed -i'' "s/threads\\s*=.*/threads = ${MINER_THREADS}/" /var/lib/ckb/ckb-miner.toml
 ```

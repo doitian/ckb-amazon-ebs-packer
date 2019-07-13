@@ -30,6 +30,7 @@ sudo chown -R ckb:ckb /var/lib/ckb
 sudo chmod 755 /var/lib/ckb
 sudo chmod 644 /var/lib/ckb/ckb.toml /var/lib/ckb/ckb-miner.toml
 
+MINER_THREADS="${MINER_THREADS:-"$(nproc)"}"
 sudo sed -i'' "s/threads\\s*=.*/threads = ${MINER_THREADS}/" /var/lib/ckb/ckb-miner.toml
 
 sudo mv init/linux-systemd/ckb.service /etc/systemd/system/
