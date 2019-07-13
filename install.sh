@@ -11,8 +11,8 @@ rm -f "${CKB_PKG}"
 
 cd "${CKB_PKG%.tar.gz}"
 
-sudo cp ckb /usr/local/bin
-sudo cp ckb-cli /usr/local/bin
+sudo mv ckb /usr/local/bin
+sudo mv ckb-cli /usr/local/bin
 sudo chown root:root /usr/local/bin/ckb /usr/local/bin/ckb-cli
 sudo chmod 755 /usr/local/bin/ckb /usr/local/bin/ckb-cli
 
@@ -30,14 +30,17 @@ sudo chown -R ckb:ckb /var/lib/ckb
 sudo chmod 755 /var/lib/ckb
 sudo chmod 644 /var/lib/ckb/ckb.toml /var/lib/ckb/ckb-miner.toml
 
-sudo cp init/linux-systemd/ckb.service /etc/systemd/system/
+sudo mv init/linux-systemd/ckb.service /etc/systemd/system/
 sudo chown root:root /etc/systemd/system/ckb.service
 sudo chmod 644 /etc/systemd/system/ckb.service
 sudo systemctl daemon-reload
 sudo systemctl enable ckb.service
 
-sudo cp init/linux-systemd/ckb-miner.service /etc/systemd/system/
+sudo mv init/linux-systemd/ckb-miner.service /etc/systemd/system/
 sudo chown root:root /etc/systemd/system/ckb-miner.service
 sudo chmod 644 /etc/systemd/system/ckb-miner.service
 sudo systemctl daemon-reload
 sudo systemctl enable ckb-miner.service
+
+cd ..
+rm -rf "${CKB_PKG%.tar.gz}"
