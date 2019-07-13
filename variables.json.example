@@ -1,0 +1,8 @@
+{
+  "aws_access_key": "",
+  "aws_secret_key": "",
+  "ckb_version": "v0.16.0",
+  "miner_threads": "2",
+  "ba_arg": "0xb5a27e6b01d309135b06089ce192a267ceada8ea",
+  "region": "us-west-2"
+}
