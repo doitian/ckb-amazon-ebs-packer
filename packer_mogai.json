@@ -1,0 +1,41 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "ckb_version": "v0.16.0",
+    "miner_threads": "2",
+    "ba_arg": "0xb5a27e6b01d309135b06089ce192a267ceada8ea",
+    "region": "us-west-2"
+  },
+  "builders": [
+    {
+      "access_key": "{{user `aws_access_key`}}",
+      "ami_name": "ckb-mogai-{{user `ckb_version`}}-x{{user `miner_threads`}}",
+      "instance_type": "t3.nano",
+      "region": "{{user `region`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name":"*ubuntu-bionic-18.04-amd64-server*",
+	  "root-device-type": "ebs"
+        },
+	"owners": ["837727238323"],
+        "most_recent": true
+      },
+      "ssh_username": "ubuntu",
+      "type": "amazon-ebs"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./install_mogai.sh",
+      "environment_vars": [
+        "CKB_VERSION={{user `ckb_version`}}",
+        "BA_ARG={{user `ba_arg`}}",
+        "MINER_THREADS={{user `miner_threads`}}"
+      ]
+    }
+  ]
+}
