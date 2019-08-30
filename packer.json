@@ -1,19 +1,26 @@
 {
   "variables": {
+    "ckb_version": "v0.18.0",
+    "ckb_version_sanity": "v0-18-0",
+    "miner_threads": "4",
+    "ba_arg": "0xb5a27e6b01d309135b06089ce192a267ceada8ea",
+
     "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "ckb_version": "v0.16.0",
-    "miner_threads": "2",
-    "ba_arg": "0xb5a27e6b01d309135b06089ce192a267ceada8ea",
-    "region": "us-west-2"
+    "aws_region": "us-west-2",
+
+    "tencentcloud_secret_id": "{{env `TENCENTCLOUD_SECRET_ID`}}",
+    "tencentcloud_secret_key": "{{env `TENCENTCLOUD_SECRET_KEY`}}",
+    "tencentcloud_region": "ap-hongkong",
+    "tencentcloud_zone": "ap-hongkong-1"
   },
   "builders": [
     {
+      "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
-      "ami_name": "ckb-{{user `ckb_version`}}-x{{user `miner_threads`}}",
-      "instance_type": "t2.micro",
-      "region": "{{user `region`}}",
       "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `aws_region`}}",
+      "instance_type": "t2.micro",
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
@@ -23,8 +30,20 @@
         "owners": ["099720109477"],
         "most_recent": true
       },
+      "ami_name": "ckb-{{user `ckb_version`}}-x{{user `miner_threads`}}",
+      "ssh_username": "ubuntu"
+    },
+    {
+      "type": "tencentcloud-cvm",
+      "secret_id": "{{user `tencentcloud_secret_id`}}",
+      "secret_key": "{{user `tencentcloud_secret_key`}}",
+      "region": "{{user `tencentcloud_region`}}",
+      "zone": "{{user `tencentcloud_zone`}}",
+      "instance_type": "S2.SMALL1",
+      "source_image_id": "img-pi0ii46r",
+      "image_name": "ckb-{{user `ckb_version_sanity`}}-x{{user `miner_threads`}}",
       "ssh_username": "ubuntu",
-      "type": "amazon-ebs"
+      "associate_public_ip_address": true
     }
   ],
   "provisioners": [
